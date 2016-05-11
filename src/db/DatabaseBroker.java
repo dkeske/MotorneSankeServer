@@ -5,6 +5,7 @@
  */
 package db;
 
+import domen.AbstractObjekat;
 import domen.MotorneSanke;
 import domen.TipSanki;
 import domen.Vozac;
@@ -16,6 +17,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,30 +26,57 @@ import java.util.List;
  */
 public class DatabaseBroker {
     private Connection connection;
+    private static DatabaseBroker instance;
     
     public DatabaseBroker(){
     }
     
-    public void uspostaviKonekciju() throws ClassNotFoundException, SQLException{
-        Class.forName("com.mysql.jdbc.Driver");
-        String url="jdbc:mysql://localhost:3306/motorne_sanke";
-        String user="root";
-        String password="";
-        connection=DriverManager.getConnection(url, user, password);
-        connection.setAutoCommit(false);
-        System.out.println("Uspesno uspostavljanje konekcije!");
+    public static DatabaseBroker vratiInstancu(){
+        if(instance==null){
+            instance = new DatabaseBroker();
+        }
+        return instance;
     }
     
-    public void raskiniKonekciju() throws SQLException{
-        connection.close();
-        System.out.println("Uspesno raskidanje konekcije!");
-    }
-    public void potvrdiTransakciju() throws SQLException{
-        connection.commit();
+    public void uspostaviKonekciju(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver baze ucitan!");
+            String url="jdbc:mysql://localhost:3306/motorne_sanke";
+            String user="root";
+            String password="";
+            connection=DriverManager.getConnection(url, user, password);
+            connection.setAutoCommit(false);
+            System.out.println("Uspesno uspostavljanje konekcije!");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Driver nije nadjen!");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void ponistiTransakciju() throws SQLException{
-        connection.rollback();
+    public void raskiniKonekciju(){
+        try {
+            connection.close();
+            System.out.println("Uspesno raskidanje konekcije!");
+        } catch (SQLException ex) {
+            System.out.println("Raskidanje konekcije sa bazom nije uspelo!");
+        }
+    }
+    public void potvrdiTransakciju(){
+        try {
+            connection.commit();
+        } catch (SQLException ex) {
+            System.out.println("Commit nije uspeo!");
+        }
+    }
+    
+    public void ponistiTransakciju(){
+        try {
+            connection.rollback();
+        } catch (SQLException ex) {
+            System.out.println("Rollback nije uspeo!");
+        }
     }
     public List<MotorneSanke> UcitajListuMotornihSanki() throws SQLException{
         String upit = "SELECT MotorneSankeID, BrojSasije, BrojMestaZaSedenje FROM motorne_sanke";
@@ -95,5 +125,24 @@ public class DatabaseBroker {
         preparedStatement.setString(4, ms.getTipSanki().getTipSankiID());
         preparedStatement.executeUpdate();
         preparedStatement.close();
+    }
+
+    public List<AbstractObjekat> vratiSveObjekte(AbstractObjekat o) throws SQLException{
+        
+        try {
+            List<AbstractObjekat> listaObjekata = new ArrayList<>();
+            String upit = "SELECT * FROM " + o.vratiImeTabele();
+            Statement s = connection.createStatement();
+            ResultSet rs = s.executeQuery(upit);
+            listaObjekata = o.RSuTabelu(rs);
+            s.close();
+            System.out.println("Uspesno izvrsen SELECT");
+            return listaObjekata;
+            
+        } catch (SQLException ex) {
+            System.out.println("Greska u SELECT upitu");
+            Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
     }
 }
