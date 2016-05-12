@@ -8,7 +8,6 @@ package db;
 import domen.AbstractObjekat;
 import domen.MotorneSanke;
 import domen.TipSanki;
-import domen.Vozac;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
