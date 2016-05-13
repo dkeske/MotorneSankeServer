@@ -8,6 +8,7 @@ package serversocket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Server extends Thread {
 
-    ServerSocket serverSocket;
+    private ServerSocket serverSocket;
     int brojPorta;
     static List<ClientThread> klijenti = new ArrayList<>();
 
@@ -36,17 +37,23 @@ public class Server extends Thread {
     @Override
     public void run() {
         try {
+            System.out.println("Cekam klijente...");
             while (!isInterrupted()) {
                 Socket socket = serverSocket.accept();
-
                 ClientThread ct = new ClientThread(socket, klijenti);
                 ct.start();
                 klijenti.add(ct);
                 System.out.println("Novi klijent se povezao!");
             }
+        } catch (SocketException se) {
+            System.out.println("Server se gasi...");
         } catch (IOException ex) {
             System.out.println("Klijent ne moze da se poveze!");
         }
+    }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
 
 }
