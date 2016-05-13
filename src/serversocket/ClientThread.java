@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +36,7 @@ public class ClientThread extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Klijent thread!");
+        System.out.println("Klijent thread pokrenut!");
         try {
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -52,9 +53,18 @@ public class ClientThread extends Thread {
                 }
                 out.writeObject(st);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SocketException se) {
+            try {
+                System.out.println("Klijent odlazi...");
+                in.close();
+                out.close();
+                socket.close();
+                klijenti.remove(this);
+            } catch (IOException ex) {
+                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

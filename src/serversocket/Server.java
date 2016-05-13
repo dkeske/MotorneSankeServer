@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Daniel
  */
-public class Server extends Thread{
+public class Server extends Thread {
 
     ServerSocket serverSocket;
     int brojPorta;
@@ -36,17 +36,17 @@ public class Server extends Thread{
     @Override
     public void run() {
         try {
-            Socket socket = serverSocket.accept();
-            
-            ClientThread ct = new ClientThread(socket, klijenti);
-            ct.start();
-            klijenti.add(ct);
-            System.out.println("Novi klijent se povezao!");
+            while (!isInterrupted()) {
+                Socket socket = serverSocket.accept();
+
+                ClientThread ct = new ClientThread(socket, klijenti);
+                ct.start();
+                klijenti.add(ct);
+                System.out.println("Novi klijent se povezao!");
+            }
         } catch (IOException ex) {
             System.out.println("Klijent ne moze da se poveze!");
         }
     }
-    
-    
 
 }
