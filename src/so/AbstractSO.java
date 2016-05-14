@@ -20,13 +20,23 @@ public abstract class AbstractSO {
     
     protected DatabaseBroker dbb;
     
-    public void izvrsiOperaciju(){
-        dbb.uspostaviKonekciju();
+    synchronized public void izvrsiOperaciju(){
+        otvoriKonekciju();
         izvrsiKonkretnuOperaciju();
+        potvrdiTransakciju();
+        zatvoriKonekciju();
+    }
+
+    private void potvrdiTransakciju() {
         dbb.potvrdiTransakciju();
-        
-        
+    }
+
+    private void zatvoriKonekciju() {
         dbb.raskiniKonekciju();
+    }
+
+    private void otvoriKonekciju() {
+        dbb.uspostaviKonekciju();
     }
     
     protected abstract void izvrsiKonkretnuOperaciju();
