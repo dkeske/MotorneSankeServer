@@ -8,6 +8,7 @@ package so;
 import domen.AbstractObjekat;
 import domen.MotorneSanke;
 import domen.TipSanki;
+import exception.ServerskiException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,13 +20,9 @@ public class SOUcitajListuMotornihSanki extends AbstractSO{
 
     private List<AbstractObjekat> listaSanki;
     @Override
-    protected void izvrsiKonkretnuOperaciju() {
-        try {
-            listaSanki = dbb.vratiSveObjekte(new MotorneSanke());
-            ucitajTipove();
-        } catch (SQLException ex) {
-            System.out.println("Vracanje sanki nije uspelo!");
-        }
+    protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
+        listaSanki = dbb.vratiSveObjekte(new MotorneSanke());
+        ucitajTipove();
     }
 
     public List<AbstractObjekat> getListaSanki() {

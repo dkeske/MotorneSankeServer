@@ -6,6 +6,7 @@
 package so;
 
 import db.DatabaseBroker;
+import exception.ServerskiException;
 
 /**
  *
@@ -20,24 +21,24 @@ public abstract class AbstractSO {
     
     protected DatabaseBroker dbb;
     
-    synchronized public void izvrsiOperaciju(){
+    synchronized public void izvrsiOperaciju() throws ServerskiException{
         otvoriKonekciju();
         izvrsiKonkretnuOperaciju();
         potvrdiTransakciju();
         zatvoriKonekciju();
     }
 
-    private void potvrdiTransakciju() {
+    private void potvrdiTransakciju() throws ServerskiException {
         dbb.potvrdiTransakciju();
     }
 
-    private void zatvoriKonekciju() {
+    private void zatvoriKonekciju() throws ServerskiException {
         dbb.raskiniKonekciju();
     }
 
-    private void otvoriKonekciju() {
+    private void otvoriKonekciju() throws ServerskiException {
         dbb.uspostaviKonekciju();
     }
     
-    protected abstract void izvrsiKonkretnuOperaciju();
+    protected abstract void izvrsiKonkretnuOperaciju() throws ServerskiException;
 }

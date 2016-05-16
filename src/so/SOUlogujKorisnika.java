@@ -7,6 +7,7 @@ package so;
 
 import domen.AbstractObjekat;
 import domen.Korisnik;
+import exception.ServerskiException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,19 +22,15 @@ public class SOUlogujKorisnika extends AbstractSO{
     private AbstractObjekat unetiParametri;
     private AbstractObjekat ulogovanKorisnik;
     @Override
-    protected void izvrsiKonkretnuOperaciju() {
-        try {
-            List<AbstractObjekat> listaKorisnika = dbb.vratiSveObjekte(new Korisnik());
-            Korisnik unetiKorisnik = (Korisnik) unetiParametri;
-            for (AbstractObjekat abstractObjekat : listaKorisnika) {
-                Korisnik korIzBaz = (Korisnik) abstractObjekat;
-                if(korIzBaz.equals(unetiKorisnik)){
-                    ulogovanKorisnik = korIzBaz;
-                    return;
-                }
+    protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
+        List<AbstractObjekat> listaKorisnika = dbb.vratiSveObjekte(new Korisnik());
+        Korisnik unetiKorisnik = (Korisnik) unetiParametri;
+        for (AbstractObjekat abstractObjekat : listaKorisnika) {
+            Korisnik korIzBaz = (Korisnik) abstractObjekat;
+            if(korIzBaz.equals(unetiKorisnik)){
+                ulogovanKorisnik = korIzBaz;
+                return;
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(SOUlogujKorisnika.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

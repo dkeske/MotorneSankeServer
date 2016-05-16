@@ -7,6 +7,7 @@ package kontroler;
 
 import domen.AbstractObjekat;
 import domen.Korisnik;
+import exception.ServerskiException;
 import java.util.List;
 import so.SOObrisiKlijenta;
 import so.SOSacuvajKlijenta;
@@ -28,30 +29,30 @@ public class Kontroler {
         return instance;
     }
 
-    public List<AbstractObjekat> vratiListuMotornihSanki() {
+    public List<AbstractObjekat> vratiListuMotornihSanki() throws ServerskiException {
         SOUcitajListuMotornihSanki sou = new SOUcitajListuMotornihSanki();
         sou.izvrsiOperaciju();
         return sou.getListaSanki();
     }
 
-    public AbstractObjekat ulogujKorisnika(Korisnik k) {
+    public AbstractObjekat ulogujKorisnika(Korisnik k) throws ServerskiException {
         SOUlogujKorisnika sok = new SOUlogujKorisnika();
         sok.setUnetiParametri(k);
         sok.izvrsiOperaciju();
         return sok.getUlogovanKorisnik();
     }
 
-    public List<AbstractObjekat> vratiListuKorisnika() {
+    public List<AbstractObjekat> vratiListuKorisnika() throws ServerskiException {
         SOUcitajListuKorisnika soul = new SOUcitajListuKorisnika();
         soul.izvrsiOperaciju();
         return soul.getLista();
     }
 
-    public void obrisiKorisnika(AbstractObjekat korisnik) {
+    public void obrisiKorisnika(AbstractObjekat korisnik) throws ServerskiException {
         SOObrisiKlijenta soob = new SOObrisiKlijenta(korisnik);
         soob.izvrsiOperaciju();
     }
-    public AbstractObjekat sacuvajKorisnika(AbstractObjekat korisnik) {
+    public AbstractObjekat sacuvajKorisnika(AbstractObjekat korisnik) throws ServerskiException {
         SOSacuvajKlijenta sosk = new SOSacuvajKlijenta(korisnik);
         sosk.izvrsiOperaciju();
         return sosk.getKlijent();

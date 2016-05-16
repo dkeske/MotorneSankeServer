@@ -7,6 +7,7 @@ package serversocket;
 
 import domen.AbstractObjekat;
 import domen.Korisnik;
+import exception.ServerskiException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,16 +47,21 @@ public class ClientThread extends Thread {
                 System.out.println("Cekam objekat!");
                 KlijentTransfer kt = (KlijentTransfer) in.readObject();
                 System.out.println("Stigao objekat!");
-                int operacija = kt.getOperacija();
                 ServerTransfer st = new ServerTransfer();
-                if (operacija == Konstante.UCITAJ_LISTU_MOTORNIH_SANKI) {
-                    List<AbstractObjekat> listaSanki = Kontroler.vratiKontrolera().vratiListuMotornihSanki();
-                    st.setUspesnost(1);
-                    st.setPodaci(listaSanki);
-                } else if (operacija == Konstante.ULOGUJ_KORISNIKA) {
-                    AbstractObjekat korisnik = Kontroler.vratiKontrolera().ulogujKorisnika((Korisnik)kt.getParametar());
-                    st.setUspesnost(1);
-                    st.setPodaci(korisnik);
+                try {
+                    int operacija = kt.getOperacija();
+                    if (operacija == Konstante.UCITAJ_LISTU_MOTORNIH_SANKI) {
+                        List<AbstractObjekat> listaSanki = Kontroler.vratiKontrolera().vratiListuMotornihSanki();
+                        st.setUspesnost(1);
+                        st.setPodaci(listaSanki);
+                    } else if (operacija == Konstante.ULOGUJ_KORISNIKA) {
+                        AbstractObjekat korisnik = Kontroler.vratiKontrolera().ulogujKorisnika((Korisnik) kt.getParametar());
+                        st.setUspesnost(1);
+                        st.setPodaci(korisnik);
+                    }
+                } catch (ServerskiException ex) {
+                    st.setUspesnost(-1);
+                    st.setException(ex);
                 }
                 out.writeObject(st);
             }
@@ -69,7 +75,6 @@ public class ClientThread extends Thread {
             } catch (IOException ex) {
                 Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
         }

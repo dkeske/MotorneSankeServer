@@ -7,6 +7,7 @@ package so;
 
 import domen.AbstractObjekat;
 import domen.Korisnik;
+import exception.ServerskiException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,20 +17,19 @@ import java.util.logging.Logger;
  *
  * @author Daniel
  */
-public class SOUcitajListuKorisnika extends AbstractSO{
+public class SOUcitajListuKorisnika extends AbstractSO {
 
     private List<AbstractObjekat> lista;
+
     @Override
-    protected void izvrsiKonkretnuOperaciju() {
-        try {
-            lista = dbb.vratiSveObjekte(new Korisnik());
-        } catch (SQLException ex) {
-            Logger.getLogger(SOUcitajListuKorisnika.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
+
+        lista = dbb.vratiSveObjekte(new Korisnik());
+
     }
 
     public List<AbstractObjekat> getLista() {
         return lista;
     }
-    
+
 }

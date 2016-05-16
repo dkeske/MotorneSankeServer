@@ -7,8 +7,12 @@ package forme;
 
 import domen.AbstractObjekat;
 import domen.Korisnik;
+import exception.ServerskiException;
 import forme.model.ModelKorisnik;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import kontroler.Kontroler;
 
 /**
@@ -131,19 +135,28 @@ public class FmKorisnici extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String ime = txt_ime.getText();
-        String username = txt_username.getText();
-        String password = txt_password.getText();
-        Korisnik k = new Korisnik("0001", ime, username, password);
-        Korisnik k1 = (Korisnik) Kontroler.vratiKontrolera().sacuvajKorisnika(k);
-        listaKorisnika.add(k1);
-        ModelKorisnik mk = (ModelKorisnik) tbl_korisnik.getModel();
-        mk.fireTableDataChanged();
+        try {
+            // TODO add your handling code here:
+            String ime = txt_ime.getText();
+            String username = txt_username.getText();
+            String password = txt_password.getText();
+            Korisnik k = new Korisnik("0002", ime, username, password);
+            Korisnik k1 = (Korisnik) Kontroler.vratiKontrolera().sacuvajKorisnika(k);
+            listaKorisnika.add(k1);
+            ModelKorisnik mk = (ModelKorisnik) tbl_korisnik.getModel();
+            mk.fireTableDataChanged();
+            ocistiPolja();
+        } catch (ServerskiException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Kontroler.vratiKontrolera().obrisiKorisnika(listaKorisnika.get(tbl_korisnik.getSelectedRow()));
+        try {
+            Kontroler.vratiKontrolera().obrisiKorisnika(listaKorisnika.get(tbl_korisnik.getSelectedRow()));
+        } catch (ServerskiException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -161,8 +174,18 @@ public class FmKorisnici extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void srediFormu() {
-        listaKorisnika = Kontroler.vratiKontrolera().vratiListuKorisnika();
-        ModelKorisnik mk = new ModelKorisnik(listaKorisnika);
-        tbl_korisnik.setModel(mk);
+        try {
+            listaKorisnika = Kontroler.vratiKontrolera().vratiListuKorisnika();
+            ModelKorisnik mk = new ModelKorisnik(listaKorisnika);
+            tbl_korisnik.setModel(mk);
+        } catch (ServerskiException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+    }
+
+    private void ocistiPolja() {
+        txt_ime.setText("");
+        txt_password.setText("");
+        txt_username.setText("");
     }
 }
