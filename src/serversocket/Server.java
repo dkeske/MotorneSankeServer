@@ -56,4 +56,14 @@ public class Server extends Thread {
         return serverSocket;
     }
 
+    public void zaustaviNiti() {
+        for (ClientThread clientThread : klijenti) {
+            try {
+                clientThread.getSocket().close();
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
 }

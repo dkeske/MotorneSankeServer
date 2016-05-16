@@ -27,8 +27,8 @@ import transfer.ServerTransfer;
  */
 public class ClientThread extends Thread {
 
-    Socket socket;
-    List<ClientThread> klijenti;
+    private Socket socket;
+    private List<ClientThread> klijenti;
     ObjectInputStream in;
     ObjectOutputStream out;
 
@@ -78,6 +78,14 @@ public class ClientThread extends Thread {
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public List<ClientThread> getKlijenti() {
+        return klijenti;
     }
 
 }

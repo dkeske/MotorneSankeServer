@@ -135,6 +135,7 @@ public class FmGlavna extends javax.swing.JFrame {
                 btn_start_stop.setText("Pokreni");
                 lbl_stanje.setText("Ne radi");
                 lbl_stanje.setForeground(Color.red);
+                server.zaustaviNiti();
             } catch (IOException ex) {
                 Logger.getLogger(FmGlavna.class.getName()).log(Level.SEVERE, null, ex);
             }
