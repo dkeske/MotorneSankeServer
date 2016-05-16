@@ -13,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -98,9 +97,7 @@ public class DatabaseBroker {
 
         } catch (SQLException ex) {
             System.out.println("Greska u SELECT upitu");
-            Logger
-                    .getLogger(DatabaseBroker.class
-                            .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }
@@ -113,6 +110,23 @@ public class DatabaseBroker {
             s.close();
             System.out.println("Uspesno izvrsen mini SELECT");
             return listaObjekata.get(0);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public void obrisiObjekat(AbstractObjekat o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public AbstractObjekat sacuvajObjekat(AbstractObjekat o){
+        try {
+            String upit = String.format("INSERT INTO %s VALUES (%s)", o.vratiImeTabele(), o.vratiParametre());
+            Statement s = connection.createStatement();
+            s.executeUpdate(upit);
+            s.close();
+            return o;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
         }

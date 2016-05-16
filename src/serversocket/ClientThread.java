@@ -6,6 +6,7 @@
 package serversocket;
 
 import domen.AbstractObjekat;
+import domen.Korisnik;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,6 +15,7 @@ import java.net.SocketException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import konstante.Konstante;
 import kontroler.Kontroler;
 import transfer.KlijentTransfer;
 import transfer.ServerTransfer;
@@ -46,10 +48,14 @@ public class ClientThread extends Thread {
                 System.out.println("Stigao objekat!");
                 int operacija = kt.getOperacija();
                 ServerTransfer st = new ServerTransfer();
-                if (operacija == konstante.Konstante.UCITAJ_LISTU_MOTORNIH_SANKI) {
+                if (operacija == Konstante.UCITAJ_LISTU_MOTORNIH_SANKI) {
                     List<AbstractObjekat> listaSanki = Kontroler.vratiKontrolera().vratiListuMotornihSanki();
                     st.setUspesnost(1);
                     st.setPodaci(listaSanki);
+                } else if (operacija == Konstante.ULOGUJ_KORISNIKA) {
+                    AbstractObjekat korisnik = Kontroler.vratiKontrolera().ulogujKorisnika((Korisnik)kt.getParametar());
+                    st.setUspesnost(1);
+                    st.setPodaci(korisnik);
                 }
                 out.writeObject(st);
             }

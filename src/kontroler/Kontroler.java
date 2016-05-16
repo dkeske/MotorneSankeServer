@@ -6,8 +6,13 @@
 package kontroler;
 
 import domen.AbstractObjekat;
+import domen.Korisnik;
 import java.util.List;
+import so.SOObrisiKlijenta;
+import so.SOSacuvajKlijenta;
+import so.SOUcitajListuKorisnika;
 import so.SOUcitajListuMotornihSanki;
+import so.SOUlogujKorisnika;
 
 /**
  *
@@ -27,5 +32,28 @@ public class Kontroler {
         SOUcitajListuMotornihSanki sou = new SOUcitajListuMotornihSanki();
         sou.izvrsiOperaciju();
         return sou.getListaSanki();
+    }
+
+    public AbstractObjekat ulogujKorisnika(Korisnik k) {
+        SOUlogujKorisnika sok = new SOUlogujKorisnika();
+        sok.setUnetiParametri(k);
+        sok.izvrsiOperaciju();
+        return sok.getUlogovanKorisnik();
+    }
+
+    public List<AbstractObjekat> vratiListuKorisnika() {
+        SOUcitajListuKorisnika soul = new SOUcitajListuKorisnika();
+        soul.izvrsiOperaciju();
+        return soul.getLista();
+    }
+
+    public void obrisiKorisnika(AbstractObjekat korisnik) {
+        SOObrisiKlijenta soob = new SOObrisiKlijenta(korisnik);
+        soob.izvrsiOperaciju();
+    }
+    public AbstractObjekat sacuvajKorisnika(AbstractObjekat korisnik) {
+        SOSacuvajKlijenta sosk = new SOSacuvajKlijenta(korisnik);
+        sosk.izvrsiOperaciju();
+        return sosk.getKlijent();
     }
 }
