@@ -7,6 +7,7 @@ package so;
 
 import domen.AbstractObjekat;
 import domen.MotorneSanke;
+import domen.TipSanki;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class SOUcitajListuMotornihSanki extends AbstractSO{
     protected void izvrsiKonkretnuOperaciju() {
         try {
             listaSanki = dbb.vratiSveObjekte(new MotorneSanke());
+            ucitajTipove();
         } catch (SQLException ex) {
             System.out.println("Vracanje sanki nije uspelo!");
         }
@@ -28,6 +30,13 @@ public class SOUcitajListuMotornihSanki extends AbstractSO{
 
     public List<AbstractObjekat> getListaSanki() {
         return listaSanki;
+    }
+
+    private void ucitajTipove() {
+        for (AbstractObjekat abstractObjekat : listaSanki) {
+            MotorneSanke ms = (MotorneSanke) abstractObjekat;
+            ms.setTipSanki((TipSanki) dbb.vratiObjekatPoKljucu(new TipSanki(), ms.getTipSanki().getTipSankiID()));
+        }
     }
     
 }

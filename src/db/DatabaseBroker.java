@@ -7,7 +7,6 @@ package db;
 
 import domen.AbstractObjekat;
 import domen.MotorneSanke;
-import domen.TipSanki;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -89,11 +88,10 @@ public class DatabaseBroker {
     public List<AbstractObjekat> vratiSveObjekte(AbstractObjekat o) throws SQLException {
 
         try {
-            List<AbstractObjekat> listaObjekata = new ArrayList<>();
             String upit = "SELECT * FROM " + o.vratiImeTabele();
             Statement s = connection.createStatement();
             ResultSet rs = s.executeQuery(upit);
-            listaObjekata = o.RSuTabelu(rs);
+            List<AbstractObjekat> listaObjekata = o.RSuTabelu(rs);
             s.close();
             System.out.println("Uspesno izvrsen SELECT");
             return listaObjekata;
@@ -105,5 +103,19 @@ public class DatabaseBroker {
                             .getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
+    }
+
+    public AbstractObjekat vratiObjekatPoKljucu(AbstractObjekat o, String ID) {
+        String upit = "SELECT * FROM " + o.vratiImeTabele() + " WHERE " + o.vratiPK() + "=" + ID;
+        try (Statement s = connection.createStatement();) {
+            ResultSet rs = s.executeQuery(upit);
+            List<AbstractObjekat> listaObjekata = o.RSuTabelu(rs);
+            s.close();
+            System.out.println("Uspesno izvrsen mini SELECT");
+            return listaObjekata.get(0);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }
