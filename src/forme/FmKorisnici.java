@@ -22,6 +22,7 @@ import kontroler.Kontroler;
 public class FmKorisnici extends javax.swing.JFrame {
 
     List<AbstractObjekat> listaKorisnika;
+    ModelKorisnik mk;
     /**
      * Creates new form FmKorisnici
      */
@@ -141,9 +142,10 @@ public class FmKorisnici extends javax.swing.JFrame {
             String username = txt_username.getText();
             String password = txt_password.getText();
             Korisnik k = new Korisnik("0002", ime, username, password);
+            k.setHashPassword(password);
             Korisnik k1 = (Korisnik) Kontroler.vratiKontrolera().sacuvajKorisnika(k);
             listaKorisnika.add(k1);
-            ModelKorisnik mk = (ModelKorisnik) tbl_korisnik.getModel();
+            mk = (ModelKorisnik) tbl_korisnik.getModel();
             mk.fireTableDataChanged();
             ocistiPolja();
         } catch (ServerskiException ex) {
@@ -153,7 +155,10 @@ public class FmKorisnici extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            Kontroler.vratiKontrolera().obrisiKorisnika(listaKorisnika.get(tbl_korisnik.getSelectedRow()));
+            int selected = tbl_korisnik.getSelectedRow();
+            Kontroler.vratiKontrolera().obrisiKorisnika(listaKorisnika.get(selected));
+            listaKorisnika.remove(selected);
+            mk.fireTableDataChanged();
         } catch (ServerskiException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
@@ -176,7 +181,7 @@ public class FmKorisnici extends javax.swing.JFrame {
     private void srediFormu() {
         try {
             listaKorisnika = Kontroler.vratiKontrolera().vratiListuKorisnika();
-            ModelKorisnik mk = new ModelKorisnik(listaKorisnika);
+            mk = new ModelKorisnik(listaKorisnika);
             tbl_korisnik.setModel(mk);
         } catch (ServerskiException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());

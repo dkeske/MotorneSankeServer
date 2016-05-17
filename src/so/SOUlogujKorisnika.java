@@ -29,9 +29,11 @@ public class SOUlogujKorisnika extends AbstractSO{
             Korisnik korIzBaz = (Korisnik) abstractObjekat;
             if(korIzBaz.equals(unetiKorisnik)){
                 ulogovanKorisnik = korIzBaz;
+                System.out.println("Postavio korisnika da je ulogovan");
                 return;
             }
         }
+        throw new ServerskiException("Nije pronadjen korisnik!");
     }
 
     public AbstractObjekat getUnetiParametri() {
