@@ -9,8 +9,8 @@ import domen.AbstractObjekat;
 import domen.Korisnik;
 import exception.ServerskiException;
 import java.util.List;
-import so.SOObrisiKlijenta;
-import so.SOSacuvajKlijenta;
+import so.SOObrisiKorisnika;
+import so.SOSacuvajKorisnika;
 import so.SOUcitajListuKorisnika;
 import so.SOUcitajListuMotornihSanki;
 import so.SOUlogujKorisnika;
@@ -49,11 +49,11 @@ public class Kontroler {
     }
 
     public void obrisiKorisnika(AbstractObjekat korisnik) throws ServerskiException {
-        SOObrisiKlijenta soob = new SOObrisiKlijenta(korisnik);
+        SOObrisiKorisnika soob = new SOObrisiKorisnika(korisnik);
         soob.izvrsiOperaciju();
     }
     public AbstractObjekat sacuvajKorisnika(AbstractObjekat korisnik) throws ServerskiException {
-        SOSacuvajKlijenta sosk = new SOSacuvajKlijenta(korisnik);
+        SOSacuvajKorisnika sosk = new SOSacuvajKorisnika(korisnik);
         sosk.izvrsiOperaciju();
         return sosk.getKlijent();
     }

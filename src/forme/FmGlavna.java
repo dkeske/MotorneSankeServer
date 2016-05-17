@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import serversocket.Server;
 
 /**
@@ -43,9 +44,10 @@ public class FmGlavna extends javax.swing.JFrame {
         lbl_stanje = new javax.swing.JLabel();
         btn_start_stop = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
+        menu_korisnici = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        menu_server = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -68,7 +70,7 @@ public class FmGlavna extends javax.swing.JFrame {
             }
         });
 
-        jMenu2.setText("Korisnici");
+        menu_korisnici.setText("Korisnici");
 
         jMenuItem2.setText("Administracija");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -76,12 +78,21 @@ public class FmGlavna extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        menu_korisnici.add(jMenuItem2);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menu_korisnici);
 
-        jMenu3.setText("Edit");
-        jMenuBar1.add(jMenu3);
+        menu_server.setText("Server");
+
+        jMenuItem3.setText("Administracija");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        menu_server.add(jMenuItem3);
+
+        jMenuBar1.add(menu_server);
 
         setJMenuBar(jMenuBar1);
 
@@ -123,19 +134,18 @@ public class FmGlavna extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_start_stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_start_stopActionPerformed
-        if (server == null || !server.isAlive()) {
-            server = new Server(9000);
+        if (!server.isAktiviran()) {
+            server = new Server();
             server.start();
-            btn_start_stop.setText("Zaustavi");
-            lbl_stanje.setText("Radi");
-            lbl_stanje.setForeground(Color.green);
+            server.setAktiviran(true);
+            formaServerAktivna();
+
         } else {
             try {
                 server.getServerSocket().close();
-                btn_start_stop.setText("Pokreni");
-                lbl_stanje.setText("Ne radi");
-                lbl_stanje.setForeground(Color.red);
                 server.zaustaviNiti();
+                formaServerNeaktivna();
+                server.setAktiviran(false);
             } catch (IOException ex) {
                 Logger.getLogger(FmGlavna.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -146,6 +156,11 @@ public class FmGlavna extends javax.swing.JFrame {
         FmKorisnici fmk = new FmKorisnici();
         fmk.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        String brojPorta = JOptionPane.showInputDialog(rootPane, "Unesite broj porta!");
+        Server.brojPorta = Integer.parseInt(brojPorta);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,17 +200,35 @@ public class FmGlavna extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_start_stop;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JLabel lbl_naslov;
     private javax.swing.JLabel lbl_opis_stanja;
     private javax.swing.JLabel lbl_stanje;
+    private javax.swing.JMenu menu_korisnici;
+    private javax.swing.JMenu menu_server;
     // End of variables declaration//GEN-END:variables
 
     private void srediFormu() {
         lbl_stanje.setForeground(Color.red);
+        menu_korisnici.setVisible(false);
+    }
+
+    private void formaServerAktivna() {
+        btn_start_stop.setText("Zaustavi");
+        lbl_stanje.setText("Radi");
+        lbl_stanje.setForeground(Color.green);
+        menu_server.setVisible(false);
+        menu_korisnici.setVisible(true);
+    }
+
+    private void formaServerNeaktivna() {
+        btn_start_stop.setText("Pokreni");
+        lbl_stanje.setText("Ne radi");
+        lbl_stanje.setForeground(Color.red);
+        menu_server.setVisible(true);
+        menu_korisnici.setVisible(false);
     }
 }

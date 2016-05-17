@@ -6,19 +6,20 @@
 package so;
 
 import domen.AbstractObjekat;
+import exception.ServerskiException;
 
 /**
  *
  * @author Daniel
  */
-public class SOObrisiKlijenta extends AbstractSO{
+public class SOObrisiKorisnika extends AbstractSO{
     private AbstractObjekat klijent;
 
-    public SOObrisiKlijenta(AbstractObjekat klijent) {
+    public SOObrisiKorisnika(AbstractObjekat klijent) {
         this.klijent = klijent;
     }
     @Override
-    protected void izvrsiKonkretnuOperaciju() {
+    protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
         dbb.obrisiObjekat(klijent);
     }
 

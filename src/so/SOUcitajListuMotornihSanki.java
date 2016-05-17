@@ -29,7 +29,7 @@ public class SOUcitajListuMotornihSanki extends AbstractSO{
         return listaSanki;
     }
 
-    private void ucitajTipove() {
+    private void ucitajTipove() throws ServerskiException {
         for (AbstractObjekat abstractObjekat : listaSanki) {
             MotorneSanke ms = (MotorneSanke) abstractObjekat;
             ms.setTipSanki((TipSanki) dbb.vratiObjekatPoKljucu(new TipSanki(), ms.getTipSanki().getTipSankiID()));

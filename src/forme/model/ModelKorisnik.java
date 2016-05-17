@@ -14,15 +14,14 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Daniel
  */
-public class ModelKorisnik extends AbstractTableModel{
+public class ModelKorisnik extends AbstractTableModel {
 
     private List<AbstractObjekat> listaKorisnika;
 
     public ModelKorisnik(List<AbstractObjekat> listaKorisnika) {
         this.listaKorisnika = listaKorisnika;
     }
-    
-    
+
     @Override
     public int getRowCount() {
         return listaKorisnika.size();
@@ -30,23 +29,24 @@ public class ModelKorisnik extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 5;
+//        return 5;
+        return 4;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Korisnik k = (Korisnik) listaKorisnika.get(rowIndex);
-        switch(columnIndex){
+        switch (columnIndex) {
             case 0:
                 return k.getKorisnikID();
-            case 1: 
+            case 1:
                 return k.getIme();
-            case 2: 
+            case 2:
                 return k.getKorisnickoIme();
-            case 3: 
+            case 3:
                 return k.getPassword();
-            case 4:
-                return "Neaktivan";
+//            case 4:
+//                return k.getStatusText();
             default:
                 return "n/a";
         }
@@ -54,7 +54,7 @@ public class ModelKorisnik extends AbstractTableModel{
 
     @Override
     public String getColumnName(int column) {
-        switch(column){
+        switch (column) {
             case 0:
                 return "ID korisnika";
             case 1:
@@ -63,15 +63,15 @@ public class ModelKorisnik extends AbstractTableModel{
                 return "Korisnicko ime";
             case 3:
                 return "Password";
-            case 4:
-                return "Status";
+//            case 4:
+//                return "Status";
             default:
                 return "n/a";
         }
-    }  
+    }
 
     public List<AbstractObjekat> getListaKorisnika() {
         return listaKorisnika;
     }
-    
+
 }

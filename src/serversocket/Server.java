@@ -21,14 +21,14 @@ import java.util.logging.Logger;
 public class Server extends Thread {
 
     private ServerSocket serverSocket;
-    int brojPorta;
+    public static int brojPorta = 9000;
     static List<ClientThread> klijenti = new ArrayList<>();
+    private static boolean aktiviran = false;
 
-    public Server(int brojPorta) {
+    public Server() {
         try {
-            this.brojPorta = brojPorta;
             serverSocket = new ServerSocket(brojPorta);
-            System.out.println("Kreiran server socket!");
+            System.out.println("Kreiran server socket na portu "+ brojPorta);
         } catch (Exception e) {
             System.out.println("Server socket nije kreiran!");
         }
@@ -64,6 +64,14 @@ public class Server extends Thread {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public static boolean isAktiviran() {
+        return aktiviran;
+    }
+
+    public static void setAktiviran(boolean aktiviran) {
+        Server.aktiviran = aktiviran;
     }
 
 }

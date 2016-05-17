@@ -87,7 +87,7 @@ public class DatabaseBroker {
         }
     }
 
-    public AbstractObjekat vratiObjekatPoKljucu(AbstractObjekat o, String ID) {
+    public AbstractObjekat vratiObjekatPoKljucu(AbstractObjekat o, String ID) throws ServerskiException {
         String upit = "SELECT * FROM " + o.vratiImeTabele() + " WHERE " + o.vratiPK() + "=" + ID;
         try (Statement s = connection.createStatement();) {
             ResultSet rs = s.executeQuery(upit);
@@ -97,15 +97,11 @@ public class DatabaseBroker {
             return listaObjekata.get(0);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServerskiException(ex.getMessage());
         }
-        return null;
     }
 
-    public void obrisiObjekat(AbstractObjekat o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public AbstractObjekat sacuvajObjekat(AbstractObjekat o){
+    public AbstractObjekat sacuvajObjekat(AbstractObjekat o) throws ServerskiException {
         try {
             String upit = String.format("INSERT INTO %s VALUES (%s)", o.vratiImeTabele(), o.vratiParametre());
             Statement s = connection.createStatement();
@@ -114,7 +110,42 @@ public class DatabaseBroker {
             return o;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServerskiException(ex.getMessage());
         }
-        return null;
+    }
+
+    public AbstractObjekat obrisiObjekat(AbstractObjekat o) throws ServerskiException {
+        try {
+            String upit = String.format("DELETE FROM %s WHERE %s = %s", o.vratiImeTabele(), o.vratiPK(), o.vratiVrednostPK());
+            Statement s = connection.createStatement();
+            s.executeUpdate(upit);
+            potvrdiTransakciju();
+            s.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServerskiException(ex.getMessage());
+        }
+        return o;
+    }
+    
+    public AbstractObjekat azurirajObjekat(AbstractObjekat o) throws ServerskiException{
+        List<AbstractObjekat> lista = vratiSveObjekte(o);
+        
+        String upit = "";
+        if(lista.contains(o)){
+            try {
+                upit = String.format("UPDATE %s SET %s WHERE %s = %s", o.vratiImeTabele(), o.vratiUpdate(), o.vratiPK(), o.vratiVrednostPK());
+                Statement s = connection.createStatement();
+                s.executeUpdate(upit);
+                s.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+                throw new ServerskiException(ex.getMessage());
+            }
+            
+        } else {
+            sacuvajObjekat(o);
+        }
+        return o;
     }
 }
