@@ -141,7 +141,7 @@ public class FmKorisnici extends javax.swing.JFrame {
             String ime = txt_ime.getText();
             String username = txt_username.getText();
             String password = txt_password.getText();
-            Korisnik k = new Korisnik("0002", ime, username, password);
+            Korisnik k = new Korisnik(ime, username, password);
             k.setHashPassword(password);
             Korisnik k1 = (Korisnik) Kontroler.vratiKontrolera().sacuvajKorisnika(k);
             listaKorisnika.add(k1);

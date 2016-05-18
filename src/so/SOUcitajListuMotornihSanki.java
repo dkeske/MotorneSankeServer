@@ -9,16 +9,16 @@ import domen.AbstractObjekat;
 import domen.MotorneSanke;
 import domen.TipSanki;
 import exception.ServerskiException;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
  *
  * @author Daniel
  */
-public class SOUcitajListuMotornihSanki extends AbstractSO{
+public class SOUcitajListuMotornihSanki extends AbstractSO {
 
     private List<AbstractObjekat> listaSanki;
+
     @Override
     protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
         listaSanki = dbb.vratiSveObjekte(new MotorneSanke());
@@ -35,5 +35,5 @@ public class SOUcitajListuMotornihSanki extends AbstractSO{
             ms.setTipSanki((TipSanki) dbb.vratiObjekatPoKljucu(new TipSanki(), ms.getTipSanki().getTipSankiID()));
         }
     }
-    
+
 }

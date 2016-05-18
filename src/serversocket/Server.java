@@ -28,7 +28,7 @@ public class Server extends Thread {
     public Server() {
         try {
             serverSocket = new ServerSocket(brojPorta);
-            System.out.println("Kreiran server socket na portu "+ brojPorta);
+            System.out.println("Kreiran server socket na portu " + brojPorta);
         } catch (Exception e) {
             System.out.println("Server socket nije kreiran!");
         }
@@ -57,12 +57,13 @@ public class Server extends Thread {
     }
 
     public void zaustaviNiti() {
-        for (ClientThread clientThread : klijenti) {
-            try {
+        try {
+            serverSocket.close();
+            for (ClientThread clientThread : klijenti) {
                 clientThread.getSocket().close();
-            } catch (IOException ex) {
-                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -6,11 +6,9 @@
 package db;
 
 import domen.AbstractObjekat;
-import domen.MotorneSanke;
 import exception.ServerskiException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -127,12 +125,12 @@ public class DatabaseBroker {
         }
         return o;
     }
-    
-    public AbstractObjekat azurirajObjekat(AbstractObjekat o) throws ServerskiException{
+
+    public AbstractObjekat azurirajObjekat(AbstractObjekat o) throws ServerskiException {
         List<AbstractObjekat> lista = vratiSveObjekte(o);
-        
+
         String upit = "";
-        if(lista.contains(o)){
+        if (lista.contains(o)) {
             try {
                 upit = String.format("UPDATE %s SET %s WHERE %s = %s", o.vratiImeTabele(), o.vratiUpdate(), o.vratiPK(), o.vratiVrednostPK());
                 Statement s = connection.createStatement();
@@ -142,7 +140,7 @@ public class DatabaseBroker {
                 Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
                 throw new ServerskiException(ex.getMessage());
             }
-            
+
         } else {
             sacuvajObjekat(o);
         }

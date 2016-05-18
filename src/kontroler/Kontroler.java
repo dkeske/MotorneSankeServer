@@ -20,10 +20,11 @@ import so.SOUlogujKorisnika;
  * @author Daniel
  */
 public class Kontroler {
+
     private static Kontroler instance;
-    
-    public static Kontroler vratiKontrolera(){
-        if(instance == null){
+
+    public static Kontroler vratiKontrolera() {
+        if (instance == null) {
             instance = new Kontroler();
         }
         return instance;
@@ -52,6 +53,7 @@ public class Kontroler {
         SOObrisiKorisnika soob = new SOObrisiKorisnika(korisnik);
         soob.izvrsiOperaciju();
     }
+
     public AbstractObjekat sacuvajKorisnika(AbstractObjekat korisnik) throws ServerskiException {
         SOSacuvajKorisnika sosk = new SOSacuvajKorisnika(korisnik);
         sosk.izvrsiOperaciju();

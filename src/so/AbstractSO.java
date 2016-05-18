@@ -17,11 +17,10 @@ public abstract class AbstractSO {
     public AbstractSO() {
         this.dbb = new DatabaseBroker();
     }
-    
-    
+
     protected DatabaseBroker dbb;
-    
-    synchronized public void izvrsiOperaciju() throws ServerskiException{
+
+    synchronized public void izvrsiOperaciju() throws ServerskiException {
         otvoriKonekciju();
         izvrsiKonkretnuOperaciju();
         potvrdiTransakciju();
@@ -39,6 +38,6 @@ public abstract class AbstractSO {
     private void otvoriKonekciju() throws ServerskiException {
         dbb.uspostaviKonekciju();
     }
-    
+
     protected abstract void izvrsiKonkretnuOperaciju() throws ServerskiException;
 }

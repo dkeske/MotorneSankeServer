@@ -141,14 +141,10 @@ public class FmGlavna extends javax.swing.JFrame {
             formaServerAktivna();
 
         } else {
-            try {
-                server.getServerSocket().close();
-                server.zaustaviNiti();
-                formaServerNeaktivna();
-                server.setAktiviran(false);
-            } catch (IOException ex) {
-                Logger.getLogger(FmGlavna.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            server.zaustaviNiti();
+            formaServerNeaktivna();
+            server.setAktiviran(false);
+
         }
     }//GEN-LAST:event_btn_start_stopActionPerformed
 
