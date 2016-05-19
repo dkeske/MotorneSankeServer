@@ -12,19 +12,21 @@ import exception.ServerskiException;
  *
  * @author Daniel
  */
-public class SOSacuvajKorisnika extends AbstractSO{
-    private AbstractObjekat klijent;
+public class SOKreirajMotorneSanke extends AbstractSO {
 
-    public SOSacuvajKorisnika(AbstractObjekat klijent) {
-        this.klijent = klijent;
-    }
+    private AbstractObjekat motorneSanke;
+
     @Override
     protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
-        klijent = dbb.sacuvajIliAzurirajObjekat(klijent);
+        dbb.sacuvajIliAzurirajObjekat(motorneSanke);
     }
 
-    public AbstractObjekat getKlijent() {
-        return klijent;
+    public AbstractObjekat getMotorneSanke() {
+        return motorneSanke;
     }
-    
+
+    public void setMotorneSanke(AbstractObjekat motorneSanke) {
+        this.motorneSanke = motorneSanke;
+    }
+
 }

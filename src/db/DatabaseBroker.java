@@ -86,7 +86,12 @@ public class DatabaseBroker {
     }
 
     public AbstractObjekat vratiObjekatPoKljucu(AbstractObjekat o, String ID) throws ServerskiException {
-        String upit = "SELECT * FROM " + o.vratiImeTabele() + " WHERE " + o.vratiPK() + "=" + ID;
+        String upit;
+        if (o.vratiPK() != null) {
+            upit = "SELECT * FROM " + o.vratiImeTabele() + " WHERE " + o.vratiPK() + "=" + ID;
+        } else {
+            upit = "SELECT * FROM " + o.vratiImeTabele() + " WHERE " + o.vratiSlozenPK();
+        }
         try (Statement s = connection.createStatement();) {
             ResultSet rs = s.executeQuery(upit);
             List<AbstractObjekat> listaObjekata = o.RSuTabelu(rs);
@@ -99,9 +104,19 @@ public class DatabaseBroker {
         }
     }
 
-    public AbstractObjekat sacuvajObjekat(AbstractObjekat o) throws ServerskiException {
+    public AbstractObjekat sacuvajIliAzurirajObjekat(AbstractObjekat o) throws ServerskiException {
         try {
-            String upit = String.format("INSERT INTO %s VALUES (%s)", o.vratiImeTabele(), o.vratiParametre());
+            List<AbstractObjekat> lista = vratiSveObjekte(o);
+            String upit;
+            if (lista.contains(o)) {
+                if (o.vratiPK() != null) {
+                    upit = String.format("UPDATE %s SET %s WHERE %s = %s", o.vratiImeTabele(), o.vratiUpdate(), o.vratiPK(), o.vratiVrednostPK());
+                } else {
+                    upit = String.format("UPDATE %s SET %s WHERE %s", o.vratiImeTabele(), o.vratiUpdate(), o.vratiSlozenPK());
+                }
+            } else {
+                upit = String.format("INSERT INTO %s VALUES (%s)", o.vratiImeTabele(), o.vratiParametre());
+            }
             Statement s = connection.createStatement();
             s.executeUpdate(upit);
             s.close();
@@ -129,7 +144,7 @@ public class DatabaseBroker {
     public AbstractObjekat azurirajObjekat(AbstractObjekat o) throws ServerskiException {
         List<AbstractObjekat> lista = vratiSveObjekte(o);
 
-        String upit = "";
+        String upit;
         if (lista.contains(o)) {
             try {
                 upit = String.format("UPDATE %s SET %s WHERE %s = %s", o.vratiImeTabele(), o.vratiUpdate(), o.vratiPK(), o.vratiVrednostPK());
@@ -142,7 +157,7 @@ public class DatabaseBroker {
             }
 
         } else {
-            sacuvajObjekat(o);
+            sacuvajIliAzurirajObjekat(o);
         }
         return o;
     }

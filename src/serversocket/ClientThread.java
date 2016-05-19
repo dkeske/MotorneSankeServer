@@ -58,6 +58,10 @@ public class ClientThread extends Thread {
                         AbstractObjekat korisnik = Kontroler.vratiKontrolera().ulogujKorisnika((Korisnik) kt.getParametar());
                         st.setUspesnost(1);
                         st.setPodaci(korisnik);
+                    } else if(operacija == Konstante.UCITAJ_LISTU_REZERVACIJA){
+                        List<AbstractObjekat> listaRezervacija = Kontroler.vratiKontrolera().vratiListuRezervacija();
+                        st.setUspesnost(1);
+                        st.setPodaci(listaRezervacija);
                     }
                 } catch (ServerskiException ex) {
                     st.setUspesnost(-1);

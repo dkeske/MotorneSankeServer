@@ -13,6 +13,7 @@ import so.SOObrisiKorisnika;
 import so.SOSacuvajKorisnika;
 import so.SOUcitajListuKorisnika;
 import so.SOUcitajListuMotornihSanki;
+import so.SOUcitajListuRezervacija;
 import so.SOUlogujKorisnika;
 
 /**
@@ -58,5 +59,11 @@ public class Kontroler {
         SOSacuvajKorisnika sosk = new SOSacuvajKorisnika(korisnik);
         sosk.izvrsiOperaciju();
         return sosk.getKlijent();
+    }
+
+    public List<AbstractObjekat> vratiListuRezervacija() throws ServerskiException {
+        SOUcitajListuRezervacija soulr = new SOUcitajListuRezervacija();
+        soulr.izvrsiOperaciju();
+        return soulr.getListaRezervacija();
     }
 }
