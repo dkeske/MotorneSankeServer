@@ -120,6 +120,11 @@ public class DatabaseBroker {
             System.out.println(upit);
             Statement s = connection.createStatement();
             s.executeUpdate(upit);
+            ResultSet rs = s.executeQuery("SELECT LAST_INSERT_ID() as last_id from " + o.vratiImeTabele());
+            while (rs.next()) {
+                String lastid = rs.getString("last_id");
+                o.setPrimaryKey(lastid);
+            }
             s.close();
             return o;
         } catch (SQLException ex) {

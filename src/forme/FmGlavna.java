@@ -6,9 +6,6 @@
 package forme;
 
 import java.awt.Color;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import serversocket.Server;
 
@@ -134,16 +131,16 @@ public class FmGlavna extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_start_stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_start_stopActionPerformed
-        if (!server.isAktiviran()) {
+        if (!Server.isAktiviran()) {
             server = new Server();
             server.start();
-            server.setAktiviran(true);
+            Server.setAktiviran(true);
             formaServerAktivna();
 
         } else {
             server.zaustaviNiti();
             formaServerNeaktivna();
-            server.setAktiviran(false);
+            Server.setAktiviran(false);
 
         }
     }//GEN-LAST:event_btn_start_stopActionPerformed

@@ -14,15 +14,16 @@ import exception.ServerskiException;
  */
 public class SOKreirajMotorneSanke extends AbstractSO {
 
+    private AbstractObjekat param;
     private AbstractObjekat motorneSanke;
 
-    public SOKreirajMotorneSanke(AbstractObjekat motorneSanke) {
-        this.motorneSanke = motorneSanke;
+    public SOKreirajMotorneSanke(AbstractObjekat param) {
+        this.param = param;
     }
     
     @Override
     protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
-        motorneSanke = dbb.sacuvajIliAzurirajObjekat(motorneSanke);
+        motorneSanke = dbb.sacuvajIliAzurirajObjekat(param);
     }
 
     public AbstractObjekat getMotorneSanke() {
