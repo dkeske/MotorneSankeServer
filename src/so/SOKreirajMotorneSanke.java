@@ -16,9 +16,13 @@ public class SOKreirajMotorneSanke extends AbstractSO {
 
     private AbstractObjekat motorneSanke;
 
+    public SOKreirajMotorneSanke(AbstractObjekat motorneSanke) {
+        this.motorneSanke = motorneSanke;
+    }
+    
     @Override
     protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
-        dbb.sacuvajIliAzurirajObjekat(motorneSanke);
+        motorneSanke = dbb.sacuvajIliAzurirajObjekat(motorneSanke);
     }
 
     public AbstractObjekat getMotorneSanke() {

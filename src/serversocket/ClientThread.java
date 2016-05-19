@@ -7,6 +7,7 @@ package serversocket;
 
 import domen.AbstractObjekat;
 import domen.Korisnik;
+import domen.MotorneSanke;
 import exception.ServerskiException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -50,19 +51,32 @@ public class ClientThread extends Thread {
                 ServerTransfer st = new ServerTransfer();
                 try {
                     int operacija = kt.getOperacija();
-                    if (operacija == Konstante.UCITAJ_LISTU_MOTORNIH_SANKI) {
-                        List<AbstractObjekat> listaSanki = Kontroler.vratiKontrolera().vratiListuMotornihSanki();
-                        st.setUspesnost(1);
-                        st.setPodaci(listaSanki);
-                    } else if (operacija == Konstante.ULOGUJ_KORISNIKA) {
-                        AbstractObjekat korisnik = Kontroler.vratiKontrolera().ulogujKorisnika((Korisnik) kt.getParametar());
-                        st.setUspesnost(1);
-                        st.setPodaci(korisnik);
-                    } else if(operacija == Konstante.UCITAJ_LISTU_REZERVACIJA){
-                        List<AbstractObjekat> listaRezervacija = Kontroler.vratiKontrolera().vratiListuRezervacija();
-                        st.setUspesnost(1);
-                        st.setPodaci(listaRezervacija);
+                    switch (operacija) {
+                        case Konstante.UCITAJ_LISTU_MOTORNIH_SANKI:
+                            List<AbstractObjekat> listaSanki = Kontroler.vratiKontrolera().vratiListuMotornihSanki();
+                            st.setPodaci(listaSanki);
+                            break;
+                        case Konstante.ULOGUJ_KORISNIKA:
+                            AbstractObjekat korisnik = Kontroler.vratiKontrolera().ulogujKorisnika((Korisnik) kt.getParametar());
+                            st.setPodaci(korisnik);
+                            break;
+                        case Konstante.UCITAJ_LISTU_REZERVACIJA:
+                            List<AbstractObjekat> listaRezervacija = Kontroler.vratiKontrolera().vratiListuRezervacija();
+                            st.setPodaci(listaRezervacija);
+                            break;
+                        case Konstante.UCITAJ_LISTU_TIPOVA_MS:
+                            List<AbstractObjekat> listaTipova = Kontroler.vratiKontrolera().vratiListuTipovaMS();
+                            st.setPodaci(listaTipova);
+                            break;
+                        case Konstante.KREIRAJ_MOTORNE_SANKE:
+                            AbstractObjekat sanke = Kontroler.vratiKontrolera().kreirajMotorneSanke((MotorneSanke)kt.getParametar());
+                            st.setPodaci(sanke);
+                            break;
+                        default:
+                            break;
                     }
+                    st.setUspesnost(1);
+
                 } catch (ServerskiException ex) {
                     st.setUspesnost(-1);
                     st.setException(ex);

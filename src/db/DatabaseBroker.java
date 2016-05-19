@@ -117,6 +117,7 @@ public class DatabaseBroker {
             } else {
                 upit = String.format("INSERT INTO %s VALUES (%s)", o.vratiImeTabele(), o.vratiParametre());
             }
+            System.out.println(upit);
             Statement s = connection.createStatement();
             s.executeUpdate(upit);
             s.close();

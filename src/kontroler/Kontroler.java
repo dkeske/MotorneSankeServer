@@ -7,13 +7,16 @@ package kontroler;
 
 import domen.AbstractObjekat;
 import domen.Korisnik;
+import domen.MotorneSanke;
 import exception.ServerskiException;
 import java.util.List;
+import so.SOKreirajMotorneSanke;
 import so.SOObrisiKorisnika;
 import so.SOSacuvajKorisnika;
 import so.SOUcitajListuKorisnika;
 import so.SOUcitajListuMotornihSanki;
 import so.SOUcitajListuRezervacija;
+import so.SOUcitajListuTipovaMS;
 import so.SOUlogujKorisnika;
 
 /**
@@ -65,5 +68,17 @@ public class Kontroler {
         SOUcitajListuRezervacija soulr = new SOUcitajListuRezervacija();
         soulr.izvrsiOperaciju();
         return soulr.getListaRezervacija();
+    }
+
+    public List<AbstractObjekat> vratiListuTipovaMS() throws ServerskiException {
+        SOUcitajListuTipovaMS soult = new SOUcitajListuTipovaMS();
+        soult.izvrsiOperaciju();
+        return soult.getListaTipova();
+    }
+
+    public AbstractObjekat kreirajMotorneSanke(MotorneSanke motorneSanke) throws ServerskiException {
+        SOKreirajMotorneSanke sokms = new SOKreirajMotorneSanke(motorneSanke);
+        sokms.izvrsiOperaciju();
+        return sokms.getMotorneSanke();
     }
 }
