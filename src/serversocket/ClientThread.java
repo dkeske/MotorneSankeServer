@@ -69,8 +69,12 @@ public class ClientThread extends Thread {
                             st.setPodaci(listaTipova);
                             break;
                         case Konstante.KREIRAJ_MOTORNE_SANKE:
-                            AbstractObjekat sanke = Kontroler.vratiKontrolera().kreirajMotorneSanke((MotorneSanke)kt.getParametar());
+                            AbstractObjekat sanke = Kontroler.vratiKontrolera().kreirajMotorneSanke((MotorneSanke) kt.getParametar());
                             st.setPodaci(sanke);
+                            break;
+                        case Konstante.UCITAJ_LISTU_VOZACA:
+                            List<AbstractObjekat> listaVozaca = Kontroler.vratiKontrolera().ucitajListuVozaca();
+                            st.setPodaci(listaVozaca);
                             break;
                         default:
                             break;

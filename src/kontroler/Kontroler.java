@@ -17,6 +17,7 @@ import so.SOUcitajListuKorisnika;
 import so.SOUcitajListuMotornihSanki;
 import so.SOUcitajListuRezervacija;
 import so.SOUcitajListuTipovaMS;
+import so.SOUcitajListuVozaca;
 import so.SOUlogujKorisnika;
 
 /**
@@ -80,5 +81,11 @@ public class Kontroler {
         SOKreirajMotorneSanke sokms = new SOKreirajMotorneSanke(motorneSanke);
         sokms.izvrsiOperaciju();
         return sokms.getMotorneSanke();
+    }
+
+    public List<AbstractObjekat> ucitajListuVozaca() throws ServerskiException {
+        SOUcitajListuVozaca soulv = new SOUcitajListuVozaca();
+        soulv.izvrsiOperaciju();
+        return soulv.getListaVozaca();
     }
 }
