@@ -108,22 +108,28 @@ public class DatabaseBroker {
         try {
             List<AbstractObjekat> lista = vratiSveObjekte(o);
             String upit;
+            String tipUpita;
             if (lista.contains(o)) {
+                tipUpita = "UPDATE";
                 if (o.vratiPK() != null) {
                     upit = String.format("UPDATE %s SET %s WHERE %s = %s", o.vratiImeTabele(), o.vratiUpdate(), o.vratiPK(), o.vratiVrednostPK());
                 } else {
                     upit = String.format("UPDATE %s SET %s WHERE %s", o.vratiImeTabele(), o.vratiUpdate(), o.vratiSlozenPK());
                 }
             } else {
+                tipUpita = "INSERT";
                 upit = String.format("INSERT INTO %s VALUES (%s)", o.vratiImeTabele(), o.vratiParametre());
             }
             System.out.println(upit);
             Statement s = connection.createStatement();
             s.executeUpdate(upit);
-            ResultSet rs = s.executeQuery("SELECT LAST_INSERT_ID() as last_id from " + o.vratiImeTabele());
-            while (rs.next()) {
-                String lastid = rs.getString("last_id");
-                o.setPrimaryKey(lastid);
+            if(tipUpita.equals("INSERT")){
+                ResultSet rs = s.executeQuery("SELECT LAST_INSERT_ID() as last_id from " + o.vratiImeTabele());
+                while (rs.next()) {
+                    String lastid = rs.getString("last_id");
+                    o.postaviVrednostPK(lastid);
+                }
+                
             }
             s.close();
             return o;

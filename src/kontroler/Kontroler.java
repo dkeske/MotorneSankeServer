@@ -8,9 +8,11 @@ package kontroler;
 import domen.AbstractObjekat;
 import domen.Korisnik;
 import domen.MotorneSanke;
+import domen.RezervacijaVoznje;
 import exception.ServerskiException;
 import java.util.List;
 import so.SOKreirajMotorneSanke;
+import so.SOKreirajRezervacijuVoznje;
 import so.SOObrisiKorisnika;
 import so.SOSacuvajKorisnika;
 import so.SOUcitajListuKorisnika;
@@ -87,5 +89,12 @@ public class Kontroler {
         SOUcitajListuVozaca soulv = new SOUcitajListuVozaca();
         soulv.izvrsiOperaciju();
         return soulv.getListaVozaca();
+    }
+
+    public AbstractObjekat kreirajRezervacijuVoznje(RezervacijaVoznje rezervacijaVoznje) throws ServerskiException {
+        SOKreirajRezervacijuVoznje sokrv = new SOKreirajRezervacijuVoznje();
+        sokrv.setRezv(rezervacijaVoznje);
+        sokrv.izvrsiOperaciju();
+        return sokrv.getRezv();
     }
 }

@@ -6,6 +6,7 @@
 package so;
 
 import domen.AbstractObjekat;
+import domen.MotorneSanke;
 import exception.ServerskiException;
 
 /**

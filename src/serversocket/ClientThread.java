@@ -8,6 +8,7 @@ package serversocket;
 import domen.AbstractObjekat;
 import domen.Korisnik;
 import domen.MotorneSanke;
+import domen.RezervacijaVoznje;
 import exception.ServerskiException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -71,6 +72,10 @@ public class ClientThread extends Thread {
                         case Konstante.KREIRAJ_MOTORNE_SANKE:
                             AbstractObjekat sanke = Kontroler.vratiKontrolera().kreirajMotorneSanke((MotorneSanke) kt.getParametar());
                             st.setPodaci(sanke);
+                            break;
+                        case Konstante.KREIRAJ_REZERVACIJU_VOZNJE:
+                            AbstractObjekat rezv = Kontroler.vratiKontrolera().kreirajRezervacijuVoznje((RezervacijaVoznje)kt.getParametar());
+                            st.setPodaci(rezv);
                             break;
                         case Konstante.UCITAJ_LISTU_VOZACA:
                             List<AbstractObjekat> listaVozaca = Kontroler.vratiKontrolera().ucitajListuVozaca();
