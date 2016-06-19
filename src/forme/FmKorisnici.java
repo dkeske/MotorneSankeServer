@@ -180,7 +180,7 @@ public class FmKorisnici extends javax.swing.JFrame {
 
     private void srediFormu() {
         try {
-            listaKorisnika = Kontroler.vratiKontrolera().vratiListuKorisnika();
+            listaKorisnika = Kontroler.vratiKontrolera().getListaKorisnika();
             mk = new ModelKorisnik(listaKorisnika);
             tbl_korisnik.setModel(mk);
         } catch (ServerskiException ex) {

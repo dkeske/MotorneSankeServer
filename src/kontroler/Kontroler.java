@@ -29,6 +29,7 @@ import so.SOUlogujKorisnika;
 public class Kontroler {
 
     private static Kontroler instance;
+    private List<AbstractObjekat> listaKorisnika;
 
     public static Kontroler vratiKontrolera() {
         if (instance == null) {
@@ -96,5 +97,16 @@ public class Kontroler {
         sokrv.setRezv(rezervacijaVoznje);
         sokrv.izvrsiOperaciju();
         return sokrv.getRezv();
+    }
+
+    public List<AbstractObjekat> getListaKorisnika() throws ServerskiException {
+        if(listaKorisnika == null){
+            listaKorisnika = vratiListuKorisnika();
+        }
+        return listaKorisnika;
+    }
+
+    public void setListaKorisnika(List<AbstractObjekat> listaKorisnika) {
+        this.listaKorisnika = listaKorisnika;
     }
 }

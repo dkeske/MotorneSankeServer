@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import kontroler.Kontroler;
 
 /**
  *
@@ -29,6 +30,8 @@ public class SOUlogujKorisnika extends AbstractSO{
             Korisnik korIzBaz = (Korisnik) abstractObjekat;
             if(korIzBaz.equals(unetiKorisnik)){
                 ulogovanKorisnik = korIzBaz;
+                int indeks = Kontroler.vratiKontrolera().getListaKorisnika().indexOf(korIzBaz);
+                ((Korisnik)Kontroler.vratiKontrolera().getListaKorisnika().get(indeks)).setUlogovan(true);
                 System.out.println("Postavio korisnika da je ulogovan");
                 return;
             }

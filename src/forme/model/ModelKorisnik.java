@@ -29,8 +29,8 @@ public class ModelKorisnik extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-//        return 5;
-        return 4;
+        return 5;
+//        return 4;
     }
 
     @Override
@@ -45,8 +45,8 @@ public class ModelKorisnik extends AbstractTableModel {
                 return k.getKorisnickoIme();
             case 3:
                 return k.getPassword();
-//            case 4:
-//                return k.getStatusText();
+            case 4:
+                return k.getStatusText();
             default:
                 return "n/a";
         }
@@ -63,8 +63,8 @@ public class ModelKorisnik extends AbstractTableModel {
                 return "Korisnicko ime";
             case 3:
                 return "Password";
-//            case 4:
-//                return "Status";
+            case 4:
+                return "Status";
             default:
                 return "n/a";
         }
