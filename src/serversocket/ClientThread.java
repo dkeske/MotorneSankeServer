@@ -33,6 +33,7 @@ public class ClientThread extends Thread {
     private List<ClientThread> klijenti;
     ObjectInputStream in;
     ObjectOutputStream out;
+    AbstractObjekat korisnik;
 
     public ClientThread(Socket socket, List<ClientThread> klijenti) {
         this.klijenti = klijenti;
@@ -58,7 +59,7 @@ public class ClientThread extends Thread {
                             st.setPodaci(listaSanki);
                             break;
                         case Konstante.ULOGUJ_KORISNIKA:
-                            AbstractObjekat korisnik = Kontroler.vratiKontrolera().ulogujKorisnika((Korisnik) kt.getParametar());
+                            korisnik = Kontroler.vratiKontrolera().ulogujKorisnika((Korisnik) kt.getParametar());
                             st.setPodaci(korisnik);
                             break;
                         case Konstante.UCITAJ_LISTU_REZERVACIJA:
@@ -95,11 +96,14 @@ public class ClientThread extends Thread {
         } catch (SocketException se) {
             try {
                 System.out.println("Klijent odlazi...");
+                Kontroler.vratiKontrolera().izlogujKorisnika(korisnik);
                 in.close();
                 out.close();
                 socket.close();
                 klijenti.remove(this);
             } catch (IOException ex) {
+                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ServerskiException ex) {
                 Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (IOException | ClassNotFoundException ex) {

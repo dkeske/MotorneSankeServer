@@ -11,6 +11,7 @@ import domen.MotorneSanke;
 import domen.RezervacijaVoznje;
 import exception.ServerskiException;
 import java.util.List;
+import so.SOIzlogujKorisnika;
 import so.SOKreirajMotorneSanke;
 import so.SOKreirajRezervacijuVoznje;
 import so.SOObrisiKorisnika;
@@ -108,5 +109,11 @@ public class Kontroler {
 
     public void setListaKorisnika(List<AbstractObjekat> listaKorisnika) {
         this.listaKorisnika = listaKorisnika;
+    }
+
+    public void izlogujKorisnika(AbstractObjekat korisnik) throws ServerskiException {
+        SOIzlogujKorisnika soik = new SOIzlogujKorisnika();
+        soik.setKorisnik(korisnik);
+        soik.izvrsiOperaciju();
     }
 }
