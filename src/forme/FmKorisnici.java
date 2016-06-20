@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import kontroler.Kontroler;
 
 /**
@@ -23,12 +24,17 @@ public class FmKorisnici extends javax.swing.JFrame {
 
     List<AbstractObjekat> listaKorisnika;
     ModelKorisnik mk;
+    RefreshForme rf;
+
     /**
      * Creates new form FmKorisnici
      */
     public FmKorisnici() {
         initComponents();
         srediFormu();
+        rf = new RefreshForme();
+        rf.setTbl_korisnik(tbl_korisnik);
+        rf.start();
     }
 
     /**
@@ -52,6 +58,11 @@ public class FmKorisnici extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Ime");
 
@@ -164,6 +175,11 @@ public class FmKorisnici extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        rf.interrupt();
+    }//GEN-LAST:event_formWindowClosing
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -192,5 +208,34 @@ public class FmKorisnici extends javax.swing.JFrame {
         txt_ime.setText("");
         txt_password.setText("");
         txt_username.setText("");
+    }
+
+    class RefreshForme extends Thread {
+
+        private JTable tbl_korisnik;
+
+        @Override
+        public void run() {
+            while (!isInterrupted()) {
+                try {
+                    Thread.sleep(3000);
+                    tbl_korisnik.setModel(new ModelKorisnik(Kontroler.vratiKontrolera().getListaKorisnika()));
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FmKorisnici.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ServerskiException ex) {
+                    Logger.getLogger(FmKorisnici.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+
+        public JTable getTbl_korisnik() {
+            return tbl_korisnik;
+        }
+
+        public void setTbl_korisnik(JTable tbl_korisnik) {
+            this.tbl_korisnik = tbl_korisnik;
+        }
+
     }
 }
