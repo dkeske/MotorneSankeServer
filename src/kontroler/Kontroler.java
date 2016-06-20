@@ -22,6 +22,7 @@ import so.SOUcitajListuRezervacija;
 import so.SOUcitajListuTipovaMS;
 import so.SOUcitajListuVozaca;
 import so.SOUlogujKorisnika;
+import so.SOZapamtiRezervaciju;
 
 /**
  *
@@ -115,5 +116,12 @@ public class Kontroler {
         SOIzlogujKorisnika soik = new SOIzlogujKorisnika();
         soik.setKorisnik(korisnik);
         soik.izvrsiOperaciju();
+    }
+
+    public AbstractObjekat zapamtiRezervacijuVoznje(RezervacijaVoznje rezervacijaVoznje) throws ServerskiException {
+        SOZapamtiRezervaciju soza = new SOZapamtiRezervaciju();
+        soza.setRezervacija(rezervacijaVoznje);
+        soza.izvrsiOperaciju();
+        return soza.getRezervacija();
     }
 }
