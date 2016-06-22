@@ -16,27 +16,21 @@ import java.util.List;
  *
  * @author Daniel
  */
-public class SOZapamtiRezervaciju extends AbstractSO{
+public class SOZapamtiRezervaciju extends AbstractSO {
+
     private RezervacijaVoznje rezervacija;
-    
+
     @Override
     protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
-        List<AbstractObjekat> listaIzBaze = dbb.vratiSveObjekte(new StavkaRezervacijeVoznje());
-        LinkedList<StavkaRezervacijeVoznje> listaBrisanje = new LinkedList<>();
-        for (AbstractObjekat abstractObjekat : listaIzBaze) {
-            StavkaRezervacijeVoznje srv = (StavkaRezervacijeVoznje) abstractObjekat;
-            if(srv.getRezervacijaVoznje().getRezevacijaID().equals(rezervacija.getRezevacijaID())){
-                listaBrisanje.add(srv);
-            }
-            for (StavkaRezervacijeVoznje stavkaRezervacijeVoznje : listaBrisanje) {
-                dbb.obrisiObjekat(stavkaRezervacijeVoznje);
-            }
-            dbb.sacuvajIliAzurirajObjekat(rezervacija);
-            for (StavkaRezervacijeVoznje stavkaRezervacijeVoznje : rezervacija.getListaStavki()) {
-                dbb.sacuvajIliAzurirajObjekat(stavkaRezervacijeVoznje);
-            }
-            
+        StavkaRezervacijeVoznje nova = new StavkaRezervacijeVoznje();
+        nova.setRezervacijaVoznje(rezervacija);
+        dbb.obrisiObjekat(nova);
+        dbb.sacuvajIliAzurirajObjekat(rezervacija);
+        for (StavkaRezervacijeVoznje stavkaRezervacijeVoznje : rezervacija.getListaStavki()) {
+//            stavkaRezervacijeVoznje.setRedniBrojStavke(0);
+            dbb.sacuvajIliAzurirajObjekat(stavkaRezervacijeVoznje);
         }
+
     }
 
     public RezervacijaVoznje getRezervacija() {
@@ -46,5 +40,5 @@ public class SOZapamtiRezervaciju extends AbstractSO{
     public void setRezervacija(RezervacijaVoznje rezervacija) {
         this.rezervacija = rezervacija;
     }
-    
+
 }

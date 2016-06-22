@@ -104,6 +104,31 @@ public class DatabaseBroker {
         }
     }
 
+    public AbstractObjekat sacuvajObjekat(AbstractObjekat o) throws ServerskiException {
+        try {
+
+            String tipUpita = "INSERT";
+            String upit = String.format("INSERT INTO %s VALUES (%s)", o.vratiImeTabele(), o.vratiParametre());
+
+            System.out.println(upit);
+            Statement s = connection.createStatement();
+            s.executeUpdate(upit);
+            ResultSet rs = s.executeQuery("SELECT LAST_INSERT_ID() as last_id from " + o.vratiImeTabele());
+            while (rs.next()) {
+                String lastid = rs.getString("last_id");
+                System.out.println(lastid);
+                o.postaviVrednostPK(lastid);
+                break;
+            }
+
+            s.close();
+            return o;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServerskiException(ex.getMessage());
+        }
+    }
+
     public AbstractObjekat sacuvajIliAzurirajObjekat(AbstractObjekat o) throws ServerskiException {
         try {
             List<AbstractObjekat> lista = vratiSveObjekte(o);
@@ -123,13 +148,15 @@ public class DatabaseBroker {
             System.out.println(upit);
             Statement s = connection.createStatement();
             s.executeUpdate(upit);
-            if(tipUpita.equals("INSERT")){
+            if (tipUpita.equals("INSERT")) {
                 ResultSet rs = s.executeQuery("SELECT LAST_INSERT_ID() as last_id from " + o.vratiImeTabele());
                 while (rs.next()) {
                     String lastid = rs.getString("last_id");
+                    System.out.println(lastid);
                     o.postaviVrednostPK(lastid);
+                    break;
                 }
-                
+
             }
             s.close();
             return o;
@@ -143,6 +170,7 @@ public class DatabaseBroker {
         try {
             String upit = String.format("DELETE FROM %s WHERE %s = %s", o.vratiImeTabele(), o.vratiPK(), o.vratiVrednostPK());
             Statement s = connection.createStatement();
+            System.out.println(upit);
             s.executeUpdate(upit);
             potvrdiTransakciju();
             s.close();
