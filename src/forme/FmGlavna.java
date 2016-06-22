@@ -6,6 +6,7 @@
 package forme;
 
 import java.awt.Color;
+import java.awt.Event;
 import javax.swing.JOptionPane;
 import serversocket.Server;
 
@@ -51,6 +52,11 @@ public class FmGlavna extends javax.swing.JFrame {
         jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         lbl_naslov.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lbl_naslov.setText("Dobrodosli na server user interface 1.0!");
@@ -154,6 +160,10 @@ public class FmGlavna extends javax.swing.JFrame {
         String brojPorta = JOptionPane.showInputDialog(rootPane, "Unesite broj porta!");
         Server.brojPorta = Integer.parseInt(brojPorta);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

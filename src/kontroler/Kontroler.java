@@ -15,6 +15,7 @@ import so.SOIzlogujKorisnika;
 import so.SOKreirajMotorneSanke;
 import so.SOKreirajRezervacijuVoznje;
 import so.SOObrisiKorisnika;
+import so.SOPretraziRezervacijuVoznje;
 import so.SOSacuvajKorisnika;
 import so.SOUcitajListuKorisnika;
 import so.SOUcitajListuMotornihSanki;
@@ -123,5 +124,12 @@ public class Kontroler {
         soza.setRezervacija(rezervacijaVoznje);
         soza.izvrsiOperaciju();
         return soza.getRezervacija();
+    }
+
+    public List<AbstractObjekat> pretraziRezervacije(String string) throws ServerskiException {
+        SOPretraziRezervacijuVoznje soprv = new SOPretraziRezervacijuVoznje();
+        soprv.setPretraga(string);
+        soprv.izvrsiOperaciju();
+        return soprv.getFilterLista();
     }
 }

@@ -82,6 +82,10 @@ public class ClientThread extends Thread {
                             AbstractObjekat rezerv = Kontroler.vratiKontrolera().zapamtiRezervacijuVoznje((RezervacijaVoznje)kt.getParametar());
                             st.setPodaci(rezerv);
                             break;
+                        case Konstante.PRETRAZI_REZERVACIJU_VOZNJE:
+                            List<AbstractObjekat> listaFilterRezervacija = Kontroler.vratiKontrolera().pretraziRezervacije((String)kt.getParametar());
+                            st.setPodaci(listaFilterRezervacija);
+                            break;
                         case Konstante.UCITAJ_LISTU_VOZACA:
                             List<AbstractObjekat> listaVozaca = Kontroler.vratiKontrolera().ucitajListuVozaca();
                             st.setPodaci(listaVozaca);
