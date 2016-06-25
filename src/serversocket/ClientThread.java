@@ -83,6 +83,10 @@ public class ClientThread extends Thread {
                             st.setPodaci(rezv);
                             break;
                         case Konstante.ZAPAMTI_REZERVACIJU_VOZNJE:
+                            in.reset();
+                            RezervacijaVoznje rere = (RezervacijaVoznje) kt.getParametar();
+                            System.out.println("LISTA VELICINE");
+                            System.out.println(rere.getListaStavki().size());
                             AbstractObjekat rezerv = Kontroler.vratiKontrolera().zapamtiRezervacijuVoznje((RezervacijaVoznje)kt.getParametar());
                             st.setPodaci(rezerv);
                             break;

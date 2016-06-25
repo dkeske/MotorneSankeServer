@@ -36,7 +36,7 @@ public class SOKreirajRezervacijuVoznje extends AbstractSO{
         RezervacijaVoznje rezervacija = (RezervacijaVoznje) rezv;
         for (StavkaRezervacijeVoznje stavka : rezervacija.getListaStavki()) {
             stavka.setRezervacijaVoznje(rezervacija);
-            dbb.sacuvajIliAzurirajObjekat(stavka);
+            dbb.sacuvajObjekat(stavka);
         }
     }
     

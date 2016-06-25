@@ -9,6 +9,7 @@ import domen.AbstractObjekat;
 import domen.MotorneSanke;
 import domen.RezervacijaVoznje;
 import domen.StavkaRezervacijeVoznje;
+import domen.TipSanki;
 import domen.Vozac;
 import exception.ServerskiException;
 import java.util.ArrayList;
@@ -50,7 +51,9 @@ public class SOUcitajListuRezervacija extends AbstractSO {
             }
             for (StavkaRezervacijeVoznje odgStavka : odgovarajuce) {
                 odgStavka.setRezervacijaVoznje(rv);
-                odgStavka.setMotorneSanke((MotorneSanke) dbb.vratiObjekatPoKljucu(new MotorneSanke(), odgStavka.getMotorneSanke().getMotorneSankeID()));
+                MotorneSanke mss = (MotorneSanke) dbb.vratiObjekatPoKljucu(new MotorneSanke(), odgStavka.getMotorneSanke().getMotorneSankeID());
+                mss.setTipSanki((TipSanki) dbb.vratiObjekatPoKljucu(new TipSanki(), mss.getTipSanki().getTipSankiID()));
+                odgStavka.setMotorneSanke(mss);
                 rv.getListaStavki().add(odgStavka);
                 listaSvihStavki.remove(odgStavka);
             }

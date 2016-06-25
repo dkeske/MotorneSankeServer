@@ -221,7 +221,8 @@ public class FmKorisnici extends javax.swing.JFrame {
                     Thread.sleep(3000);
                     tbl_korisnik.setModel(new ModelKorisnik(Kontroler.vratiKontrolera().getListaKorisnika()));
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(FmKorisnici.class.getName()).log(Level.SEVERE, null, ex);
+
+                    return;
                 } catch (ServerskiException ex) {
                     Logger.getLogger(FmKorisnici.class.getName()).log(Level.SEVERE, null, ex);
                 }

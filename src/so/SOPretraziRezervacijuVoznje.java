@@ -26,11 +26,12 @@ public class SOPretraziRezervacijuVoznje extends AbstractSO {
         sou.izvrsiOperaciju();
         List<AbstractObjekat> izBaze = sou.getListaRezervacija();
         filterLista = new ArrayList<>();
+        pretraga = pretraga.toLowerCase();
         for (AbstractObjekat abstractObjekat : izBaze) {
             RezervacijaVoznje rez = (RezervacijaVoznje) abstractObjekat;
-            if (rez.getVozac().getIme().contains(pretraga)
-                    || (rez.isUplataUnapred() && pretraga.equals("true"))
-                    || (!rez.isUplataUnapred() && pretraga.equals("false"))
+            if (rez.getVozac().getIme().toLowerCase().contains(pretraga)
+                    || (rez.isUplataUnapred() && pretraga.equals("da"))
+                    || (!rez.isUplataUnapred() && pretraga.equals("da"))
                     || (rez.getDatumRezervacije().toString().contains(pretraga))) {
                 filterLista.add(rez);
             }

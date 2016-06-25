@@ -26,12 +26,13 @@ public class SOPretraziMotorneSanke extends AbstractSO {
         sou.izvrsiOperaciju();
         List<AbstractObjekat> izBaze = sou.getListaSanki();
         filterLista = new ArrayList<>();
+        pretraga = pretraga.toLowerCase();
         for (AbstractObjekat abstractObjekat : izBaze) {
             MotorneSanke ms = (MotorneSanke) abstractObjekat;
-            if (ms.getBrojSasije().contains(pretraga)
-                    || ms.getMotorneSankeID().contains(pretraga)
-                    || ms.getTipSanki().getNazivTipa().contains(pretraga)
-                    || ms.getTipSanki().getNamena().contains(pretraga)) {
+            if (ms.getBrojSasije().toLowerCase().contains(pretraga)
+                    || ms.getMotorneSankeID().toLowerCase().contains(pretraga)
+                    || ms.getTipSanki().getNazivTipa().toLowerCase().contains(pretraga)
+                    || ms.getTipSanki().getNamena().toLowerCase().contains(pretraga)) {
                 filterLista.add(ms);
             }
         }

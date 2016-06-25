@@ -24,6 +24,7 @@ public class FmGlavna extends javax.swing.JFrame {
     public FmGlavna() {
         initComponents();
         srediFormu();
+        this.getRootPane().setDefaultButton(btn_start_stop);
     }
 
     /**

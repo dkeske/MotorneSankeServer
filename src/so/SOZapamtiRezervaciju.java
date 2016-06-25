@@ -5,12 +5,9 @@
  */
 package so;
 
-import domen.AbstractObjekat;
 import domen.RezervacijaVoznje;
 import domen.StavkaRezervacijeVoznje;
 import exception.ServerskiException;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  *
@@ -28,7 +25,7 @@ public class SOZapamtiRezervaciju extends AbstractSO {
         dbb.sacuvajIliAzurirajObjekat(rezervacija);
         for (StavkaRezervacijeVoznje stavkaRezervacijeVoznje : rezervacija.getListaStavki()) {
 //            stavkaRezervacijeVoznje.setRedniBrojStavke(0);
-            dbb.sacuvajIliAzurirajObjekat(stavkaRezervacijeVoznje);
+            dbb.sacuvajObjekat(stavkaRezervacijeVoznje);
         }
 
     }
