@@ -48,7 +48,7 @@ public class ClientThread extends Thread {
             out = new ObjectOutputStream(socket.getOutputStream());
             while (true) {
                 System.out.println("Cekam objekat!");
-                KlijentTransfer kt = (KlijentTransfer) in.readObject();
+                KlijentTransfer kt = (KlijentTransfer) in.readUnshared();
                 System.out.println("Stigao objekat!");
                 ServerTransfer st = new ServerTransfer();
                 try {
@@ -75,30 +75,31 @@ public class ClientThread extends Thread {
                             st.setPodaci(sanke);
                             break;
                         case Konstante.PRETRAZI_MOTORNE_SANKE:
-                            List<AbstractObjekat> listaFilterSanki = Kontroler.vratiKontrolera().pretraziSanke((String)kt.getParametar());
+                            List<AbstractObjekat> listaFilterSanki = Kontroler.vratiKontrolera().pretraziSanke((String) kt.getParametar());
                             st.setPodaci(listaFilterSanki);
                             break;
                         case Konstante.KREIRAJ_REZERVACIJU_VOZNJE:
-                            AbstractObjekat rezv = Kontroler.vratiKontrolera().kreirajRezervacijuVoznje((RezervacijaVoznje)kt.getParametar());
+                            AbstractObjekat rezv = Kontroler.vratiKontrolera().kreirajRezervacijuVoznje((RezervacijaVoznje) kt.getParametar());
                             st.setPodaci(rezv);
                             break;
                         case Konstante.ZAPAMTI_REZERVACIJU_VOZNJE:
-                            in.reset();
-                            RezervacijaVoznje rere = (RezervacijaVoznje) kt.getParametar();
-                            System.out.println("LISTA VELICINE");
-                            System.out.println(rere.getListaStavki().size());
-                            AbstractObjekat rezerv = Kontroler.vratiKontrolera().zapamtiRezervacijuVoznje((RezervacijaVoznje)kt.getParametar());
+                            AbstractObjekat rezerv = Kontroler.vratiKontrolera().zapamtiRezervacijuVoznje((RezervacijaVoznje) kt.getParametar());
                             st.setPodaci(rezerv);
                             break;
                         case Konstante.PRETRAZI_REZERVACIJU_VOZNJE:
-                            List<AbstractObjekat> listaFilterRezervacija = Kontroler.vratiKontrolera().pretraziRezervacije((String)kt.getParametar());
+                            List<AbstractObjekat> listaFilterRezervacija = Kontroler.vratiKontrolera().pretraziRezervacije((String) kt.getParametar());
                             st.setPodaci(listaFilterRezervacija);
                             break;
                         case Konstante.UCITAJ_LISTU_VOZACA:
                             List<AbstractObjekat> listaVozaca = Kontroler.vratiKontrolera().ucitajListuVozaca();
                             st.setPodaci(listaVozaca);
                             break;
+                        case Konstante.PRETRAZI_VOZACE:
+                            List<AbstractObjekat> listaFilter = Kontroler.vratiKontrolera().pretraziVozace((String)kt.getParametar());
+                            st.setPodaci(listaFilter);
+                            break;
                         default:
+                            kt.getParametar();
                             break;
                     }
                     st.setUspesnost(1);
@@ -107,7 +108,7 @@ public class ClientThread extends Thread {
                     st.setUspesnost(-1);
                     st.setException(ex);
                 }
-                out.writeObject(st);
+                out.writeUnshared(st);
             }
         } catch (SocketException se) {
             try {

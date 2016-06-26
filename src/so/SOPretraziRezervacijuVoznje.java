@@ -7,6 +7,7 @@ package so;
 
 import domen.AbstractObjekat;
 import domen.RezervacijaVoznje;
+import domen.StavkaRezervacijeVoznje;
 import exception.ServerskiException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,8 @@ public class SOPretraziRezervacijuVoznje extends AbstractSO {
             if (rez.getVozac().getIme().toLowerCase().contains(pretraga)
                     || (rez.isUplataUnapred() && pretraga.equals("da"))
                     || (!rez.isUplataUnapred() && pretraga.equals("da"))
-                    || (rez.getDatumRezervacije().toString().contains(pretraga))) {
+                    || (rez.getDatumRezervacije().toString().contains(pretraga))
+                    || sadrziMotorneSanke(rez, pretraga)) {
                 filterLista.add(rez);
             }
         }
@@ -52,6 +54,17 @@ public class SOPretraziRezervacijuVoznje extends AbstractSO {
 
     public void setPretraga(String pretaga) {
         this.pretraga = pretaga;
+    }
+
+    private boolean sadrziMotorneSanke(RezervacijaVoznje rez, String pretraga) {
+        for (StavkaRezervacijeVoznje stav : rez.getListaStavki()) {
+            if(stav.getMotorneSanke().getBrojSasije().toLowerCase().contains(pretraga)){
+                System.out.println("NASAO SAM SANKE U STAVCI");
+                return true;
+            }
+        }
+        
+        return false;
     }
 
 }

@@ -17,6 +17,7 @@ import so.SOKreirajRezervacijuVoznje;
 import so.SOObrisiKorisnika;
 import so.SOPretraziMotorneSanke;
 import so.SOPretraziRezervacijuVoznje;
+import so.SOPretraziVozace;
 import so.SOSacuvajKorisnika;
 import so.SOUcitajListuKorisnika;
 import so.SOUcitajListuMotornihSanki;
@@ -139,5 +140,12 @@ public class Kontroler {
         sopms.setPretraga(string);
         sopms.izvrsiOperaciju();
         return sopms.getFilterLista();
+    }
+
+    public List<AbstractObjekat> pretraziVozace(String string) throws ServerskiException {
+        SOPretraziVozace sopv = new SOPretraziVozace();
+        sopv.setPretraga(string);
+        sopv.izvrsiOperaciju();
+        return sopv.getFilterLista();
     }
 }
