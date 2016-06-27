@@ -18,20 +18,27 @@ import kontroler.Kontroler;
  *
  * @author Daniel
  */
-public class SOUlogujKorisnika extends AbstractSO{
+public class SOUlogujKorisnika extends AbstractSO {
 
     private AbstractObjekat unetiParametri;
     private AbstractObjekat ulogovanKorisnik;
+
     @Override
     protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
         List<AbstractObjekat> listaKorisnika = dbb.vratiSveObjekte(new Korisnik());
         Korisnik unetiKorisnik = (Korisnik) unetiParametri;
         for (AbstractObjekat abstractObjekat : listaKorisnika) {
             Korisnik korIzBaz = (Korisnik) abstractObjekat;
-            if(korIzBaz.equals(unetiKorisnik)){
+            if (korIzBaz.equals(unetiKorisnik)) {
                 ulogovanKorisnik = korIzBaz;
                 int indeks = Kontroler.vratiKontrolera().getListaKorisnika().indexOf(korIzBaz);
-                ((Korisnik)Kontroler.vratiKontrolera().getListaKorisnika().get(indeks)).setUlogovan(true);
+                Korisnik kIzListe = (Korisnik) Kontroler.vratiKontrolera().getListaKorisnika().get(indeks);
+                if (kIzListe.isUlogovan()) {
+                    throw new ServerskiException("Korisnik je vec ulogovan!");
+                } else {
+                    kIzListe.setUlogovan(true);
+
+                }
                 System.out.println("Postavio korisnika da je ulogovan");
                 return;
             }
@@ -54,5 +61,5 @@ public class SOUlogujKorisnika extends AbstractSO{
     public void setUlogovanKorisnik(AbstractObjekat ulogovanKorisnik) {
         this.ulogovanKorisnik = ulogovanKorisnik;
     }
-    
+
 }

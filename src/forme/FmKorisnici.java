@@ -35,6 +35,7 @@ public class FmKorisnici extends javax.swing.JFrame {
         rf = new RefreshForme();
         rf.setTbl_korisnik(tbl_korisnik);
         rf.start();
+        setLocationRelativeTo(null);
     }
 
     /**

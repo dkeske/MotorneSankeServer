@@ -32,7 +32,7 @@ public class SOPretraziRezervacijuVoznje extends AbstractSO {
             RezervacijaVoznje rez = (RezervacijaVoznje) abstractObjekat;
             if (rez.getVozac().getIme().toLowerCase().contains(pretraga)
                     || (rez.isUplataUnapred() && pretraga.equals("da"))
-                    || (!rez.isUplataUnapred() && pretraga.equals("da"))
+                    || (!rez.isUplataUnapred() && pretraga.equals("ne"))
                     || (rez.getDatumRezervacije().toString().contains(pretraga))
                     || sadrziMotorneSanke(rez, pretraga)) {
                 filterLista.add(rez);
@@ -59,7 +59,7 @@ public class SOPretraziRezervacijuVoznje extends AbstractSO {
     private boolean sadrziMotorneSanke(RezervacijaVoznje rez, String pretraga) {
         for (StavkaRezervacijeVoznje stav : rez.getListaStavki()) {
             if(stav.getMotorneSanke().getBrojSasije().toLowerCase().contains(pretraga)){
-                System.out.println("NASAO SAM SANKE U STAVCI");
+//                System.out.println("NASAO SAM SANKE U STAVCI");
                 return true;
             }
         }
