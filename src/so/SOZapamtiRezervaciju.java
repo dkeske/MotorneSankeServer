@@ -5,9 +5,12 @@
  */
 package so;
 
+import domen.AbstractObjekat;
 import domen.RezervacijaVoznje;
 import domen.StavkaRezervacijeVoznje;
 import exception.ServerskiException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  *
@@ -19,12 +22,12 @@ public class SOZapamtiRezervaciju extends AbstractSO {
 
     @Override
     protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
+//        proveriDupliUnos();
         StavkaRezervacijeVoznje nova = new StavkaRezervacijeVoznje();
         nova.setRezervacijaVoznje(rezervacija);
         dbb.obrisiObjekat(nova);
         dbb.sacuvajIliAzurirajObjekat(rezervacija);
         for (StavkaRezervacijeVoznje stavkaRezervacijeVoznje : rezervacija.getListaStavki()) {
-//            stavkaRezervacijeVoznje.setRedniBrojStavke(0);
             dbb.sacuvajObjekat(stavkaRezervacijeVoznje);
         }
 
@@ -37,5 +40,18 @@ public class SOZapamtiRezervaciju extends AbstractSO {
     public void setRezervacija(RezervacijaVoznje rezervacija) {
         this.rezervacija = rezervacija;
     }
+
+//    private void proveriDupliUnos() throws ServerskiException {
+//        List<AbstractObjekat> listaRezervacije = dbb.vratiSveObjekte(new RezervacijaVoznje());
+//        for (AbstractObjekat abstractObjekat : listaRezervacije) {
+//            RezervacijaVoznje rez = (RezervacijaVoznje) abstractObjekat;
+//            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+//            if(!rez.equals(rezervacija) && sdf.format(rez.getDatumRezervacije()).equals(sdf.format(rezervacija.getDatumRezervacije()))){
+//                for (AbstractObjekat abstractObjekat1 : listaRezervacije) {
+//                    
+//                }
+//            }
+//        }
+//    }
 
 }
