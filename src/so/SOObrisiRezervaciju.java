@@ -6,7 +6,7 @@
 package so;
 
 import domen.AbstractObjekat;
-import domen.MotorneSanke;
+import domen.RezervacijaVoznje;
 import exception.ServerskiException;
 import java.util.List;
 
@@ -14,25 +14,26 @@ import java.util.List;
  *
  * @author Daniel
  */
-public class SOObrisiMotorneSanke extends AbstractSO{
-    private AbstractObjekat sanke;
+public class SOObrisiRezervaciju extends AbstractSO{
+    private RezervacijaVoznje rez;
     private List<AbstractObjekat> lista;
-    @Override
+
+    public SOObrisiRezervaciju(RezervacijaVoznje rez) {
+        this.rez = rez;
+    }
     
+    @Override
     protected void izvrsiKonkretnuOperaciju() throws ServerskiException {
-        dbb.obrisiObjekat(sanke);
-        lista = dbb.vratiSveObjekte(new MotorneSanke());
+        dbb.obrisiObjekat(rez);
+        lista = dbb.vratiSveObjekte(new RezervacijaVoznje());
     }
 
-    public SOObrisiMotorneSanke() {
+    public RezervacijaVoznje getRez() {
+        return rez;
     }
 
-    public AbstractObjekat getSanke() {
-        return sanke;
-    }
-
-    public void setSanke(AbstractObjekat sanke) {
-        this.sanke = sanke;
+    public void setRez(RezervacijaVoznje rez) {
+        this.rez = rez;
     }
 
     public List<AbstractObjekat> getLista() {

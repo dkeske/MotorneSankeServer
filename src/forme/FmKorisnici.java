@@ -36,6 +36,7 @@ public class FmKorisnici extends javax.swing.JFrame {
         rf.setTbl_korisnik(tbl_korisnik);
         rf.start();
         setLocationRelativeTo(null);
+        setTitle("Upravljanje korisnicima");
     }
 
     /**

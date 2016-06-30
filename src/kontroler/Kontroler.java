@@ -12,9 +12,11 @@ import domen.RezervacijaVoznje;
 import exception.ServerskiException;
 import java.util.List;
 import so.SOIzlogujKorisnika;
-import so.SOKreirajMotorneSanke;
+import so.SOZapamtiMotorneSanke;
 import so.SOKreirajRezervacijuVoznje;
 import so.SOObrisiKorisnika;
+import so.SOObrisiMotorneSanke;
+import so.SOObrisiRezervaciju;
 import so.SOPretraziMotorneSanke;
 import so.SOPretraziRezervacijuVoznje;
 import so.SOPretraziVozace;
@@ -86,7 +88,7 @@ public class Kontroler {
     }
 
     public AbstractObjekat kreirajMotorneSanke(MotorneSanke motorneSanke) throws ServerskiException {
-        SOKreirajMotorneSanke sokms = new SOKreirajMotorneSanke(motorneSanke);
+        SOZapamtiMotorneSanke sokms = new SOZapamtiMotorneSanke(motorneSanke);
         sokms.izvrsiOperaciju();
         return sokms.getMotorneSanke();
     }
@@ -147,5 +149,18 @@ public class Kontroler {
         sopv.setPretraga(string);
         sopv.izvrsiOperaciju();
         return sopv.getFilterLista();
+    }
+
+    public List<AbstractObjekat> obrisiSanke(MotorneSanke motorneSanke) throws ServerskiException {
+        SOObrisiMotorneSanke soom = new SOObrisiMotorneSanke();
+        soom.setSanke(motorneSanke);
+        soom.izvrsiOperaciju();
+        return soom.getLista();
+    }
+
+    public List<AbstractObjekat> obrisiRezervaciju(RezervacijaVoznje rezervacijaVoznje) throws ServerskiException {
+        SOObrisiRezervaciju soobr = new SOObrisiRezervaciju(rezervacijaVoznje);
+        soobr.izvrsiOperaciju();
+        return soobr.getLista();
     }
 }

@@ -78,6 +78,10 @@ public class ClientThread extends Thread {
                             List<AbstractObjekat> listaFilterSanki = Kontroler.vratiKontrolera().pretraziSanke((String) kt.getParametar());
                             st.setPodaci(listaFilterSanki);
                             break;
+                        case Konstante.OBRISI_MOTORNE_SANKE:
+                            List<AbstractObjekat> listaPosleBris = Kontroler.vratiKontrolera().obrisiSanke((MotorneSanke) kt.getParametar());
+                            st.setPodaci(listaPosleBris);
+                            break;
                         case Konstante.KREIRAJ_REZERVACIJU_VOZNJE:
                             AbstractObjekat rezv = Kontroler.vratiKontrolera().kreirajRezervacijuVoznje((RezervacijaVoznje) kt.getParametar());
                             st.setPodaci(rezv);
@@ -90,12 +94,16 @@ public class ClientThread extends Thread {
                             List<AbstractObjekat> listaFilterRezervacija = Kontroler.vratiKontrolera().pretraziRezervacije((String) kt.getParametar());
                             st.setPodaci(listaFilterRezervacija);
                             break;
+                        case Konstante.OBRISI_REZERVACIJU_VOZNJE:
+                            List<AbstractObjekat> listaBris = Kontroler.vratiKontrolera().obrisiRezervaciju((RezervacijaVoznje) kt.getParametar());
+                            st.setPodaci(listaBris);
+                            break;
                         case Konstante.UCITAJ_LISTU_VOZACA:
                             List<AbstractObjekat> listaVozaca = Kontroler.vratiKontrolera().ucitajListuVozaca();
                             st.setPodaci(listaVozaca);
                             break;
                         case Konstante.PRETRAZI_VOZACE:
-                            List<AbstractObjekat> listaFilter = Kontroler.vratiKontrolera().pretraziVozace((String)kt.getParametar());
+                            List<AbstractObjekat> listaFilter = Kontroler.vratiKontrolera().pretraziVozace((String) kt.getParametar());
                             st.setPodaci(listaFilter);
                             break;
                         default:
